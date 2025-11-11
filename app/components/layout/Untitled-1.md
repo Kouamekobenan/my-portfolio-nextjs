@@ -1,0 +1,29 @@
+```
+└── 📁app
+    └── 📁[locale]
+        ├── layout.tsx
+        ├── page.tsx
+    └── 📁components
+        └── 📁features
+        └── 📁layout
+            ├── Footer.tsx
+            ├── NavBar.tsx
+        └── 📁ui
+    └── 📁config
+    └── 📁data
+        ├── data.ts
+    └── 📁i18n
+        └── 📁locales
+            └── 📁en
+                ├── common.json
+            └── 📁fr
+                ├── common.json
+        ├── index.ts
+        ├── setting.ts
+    └── 📁lib
+        ├── global.type.ts
+    ├── favicon.ico
+    ├── globals.css
+    ├── layout.tsx
+    └── page.tsx
+```

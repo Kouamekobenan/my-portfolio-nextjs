@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, Sun, Moon, Globe } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
+
 interface NavBarProps {
   locale: string;
   translations: {
@@ -12,10 +13,12 @@ interface NavBarProps {
     contact: string;
   };
 }
+
 export default function NavBar({ locale, translations }: NavBarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -31,25 +34,40 @@ export default function NavBar({ locale, translations }: NavBarProps) {
   // Initialiser le thème depuis localStorage
   useEffect(() => {
     const theme = localStorage.getItem("theme");
-    if (
-      theme === "dark" ||
-      (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
+    const systemDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    // Déterminer le thème initial
+    if (theme === "dark" || (!theme && systemDark)) {
       setIsDark(true);
       document.documentElement.classList.add("dark");
+    } else {
+      setIsDark(false);
+      document.documentElement.classList.remove("dark");
     }
+
+    // Marquer le composant comme monté APRÈS l'initialisation du thème
+    setMounted(true);
   }, []);
 
   const toggleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);
-    document.documentElement.classList.toggle("dark");
+
+    // Appliquer ou retirer la classe dark explicitement
+    if (newTheme) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+
     localStorage.setItem("theme", newTheme ? "dark" : "light");
   };
 
   const toggleLanguage = () => {
     const newLocale = locale === "fr" ? "en" : "fr";
-    const currentPath = pathname.replace(`/${locale}`, "");
+    const currentPath = pathname.replace(`/${locale}`, "") || "";
     router.push(`/${newLocale}${currentPath}`);
   };
 
@@ -70,7 +88,7 @@ export default function NavBar({ locale, translations }: NavBarProps) {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
+          {/* Logo - CORRECTION ICI */}
           <div className="flex-shrink-0">
             <a
               href={`/${locale}#home`}
@@ -93,7 +111,6 @@ export default function NavBar({ locale, translations }: NavBarProps) {
               </a>
             ))}
           </div>
-
           {/* Boutons Thème et Langue */}
           <div className="flex items-center space-x-2">
             {/* Bouton Langue */}
@@ -110,15 +127,17 @@ export default function NavBar({ locale, translations }: NavBarProps) {
               </div>
             </button>
             {/* Bouton Thème */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              aria-label="Changer de thème"
-              suppressHydrationWarning
-            >
-              {isDark ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-
+            {mounted ? (
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                aria-label="Changer de thème"
+              >
+                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+            ) : (
+              <div className="w-9 h-9 p-2 rounded-lg bg-gray-100 dark:bg-gray-800 animate-pulse"></div>
+            )}
             {/* Bouton Menu Mobile */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}

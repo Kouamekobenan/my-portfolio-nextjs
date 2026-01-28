@@ -18,9 +18,9 @@ export default async function Home({ params }: HomePageProps) {
     projects: translations?.projects || {},
   };
   return (
-    <div className="">
+    <div className="overflow-x-hidden">
       <Banniere locale={locale as "en" | "fr"} translations={allTranslations} />
-      <Projects  locale={locale as "en" | "fr"} translations={allTranslations} />
+      <Projects locale={locale as "en" | "fr"} translations={allTranslations} />
     </div>
   );
 }

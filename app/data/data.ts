@@ -2,6 +2,7 @@
 export interface Project {
   id: string;
   name: string;
+  image: string;
   description: string;
   type: "fullstack" | "frontend" | "backend" | "vitrine";
   technologies: {
@@ -27,6 +28,7 @@ export const projectsFr: Project[] = [
   {
     id: "1",
     name: "NoBoutik PlateForme des ventes",
+    image: "/images/noboutik.png",
     description:
       "Une plateForme de gestion de vente mettant en rélation les vendeur et les clients",
     type: "fullstack",
@@ -55,6 +57,7 @@ export const projectsFr: Project[] = [
   {
     id: "2",
     name: "Plateforme E-commerce Multi-vendeurs",
+    image: "/images/noboutik.png",
     description:
       "Backend robuste pour une plateforme e-commerce supportant plusieurs vendeurs",
     type: "backend",
@@ -84,6 +87,7 @@ export const projectsFr: Project[] = [
   {
     id: "3",
     name: "Salon de Coiffure - Site Vitrine",
+    image: "/images/coiffure.png",
     description:
       "Site vitrine moderne pour un salon de coiffure présentant les services et faciliter les réservations",
     type: "vitrine",
@@ -111,6 +115,7 @@ export const projectsFr: Project[] = [
   {
     id: "4",
     name: "Afrikamazing - Site Vitrine",
+    image: "/images/afrikamazing.png",
     description:
       "Site vitrine professionnel présentant l'entreprise Afrikamazing et ses services",
     type: "vitrine",
@@ -138,6 +143,7 @@ export const projectsFr: Project[] = [
   {
     id: "5",
     name: "12Depot Backend API",
+    image: "/images/12depot.png",
     description:
       "API backend pour la plateforme de gestion d'inventaire multi-tenant 12Depot",
     type: "backend",
@@ -167,6 +173,7 @@ export const projectsFr: Project[] = [
   {
     id: "6",
     name: "12Depot - Gestion d'Inventaire",
+    image: "/images/12depot.png",
     description:
       "Plateforme complète de gestion des inventaires de stocks multi-tenant avec interface desktop",
     type: "fullstack",
@@ -199,6 +206,7 @@ export const projectsEn: Project[] = [
   {
     id: "1",
     name: "NoBoutik Sales Platform",
+    image: "/images/noboutik.png",
     description:
       "A sales management platform connecting vendors and customers.",
     type: "fullstack",
@@ -227,6 +235,7 @@ export const projectsEn: Project[] = [
   {
     id: "2",
     name: "Multi-Vendor E-commerce Platform",
+    image: "/images/noboutik.png",
     description:
       "Robust backend for an e-commerce platform supporting multiple sellers.",
     type: "backend",
@@ -256,6 +265,7 @@ export const projectsEn: Project[] = [
   {
     id: "3",
     name: "Hair Salon - Showcase Website",
+    image: "/images/coiffure.png",
     description:
       "Modern showcase website for a hair salon presenting services and facilitating bookings.",
     type: "vitrine",
@@ -283,6 +293,7 @@ export const projectsEn: Project[] = [
   {
     id: "4",
     name: "Afrikamazing - Showcase Website",
+    image: "/images/afrikamazing.png",
     description:
       "Professional showcase website presenting the Afrikamazing company and its services.",
     type: "vitrine", // (vitrine often translates to "showcase" or "portfolio" website)
@@ -310,6 +321,7 @@ export const projectsEn: Project[] = [
   {
     id: "5",
     name: "12Depot Backend API",
+    image: "/images/12depot.png",
     description:
       "Backend API for the 12Depot multi-tenant inventory management platform.",
     type: "backend",
@@ -339,6 +351,7 @@ export const projectsEn: Project[] = [
   {
     id: "6",
     name: "12Depot - Inventory Management",
+    image: "/images/12depot.png",
     description:
       "Complete multi-tenant stock inventory management platform with a desktop interface.",
     type: "fullstack",

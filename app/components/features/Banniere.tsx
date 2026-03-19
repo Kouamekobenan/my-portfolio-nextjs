@@ -110,7 +110,6 @@ export default function Banniere({ translations }: HeroProps) {
           <rect width="100%" height="100%" fill="url(#grid)" />
         </svg>
       </div>
-
       {/* Soft Gradient Orbs - More Subtle */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div

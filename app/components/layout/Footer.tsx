@@ -40,13 +40,13 @@ const SocialIconLink = ({ href, children, label }: SocialIconLinkProps) => (
     target="_blank"
     rel="noopener noreferrer"
     aria-label={label}
-    className="group relative w-11 h-11 bg-gradient-to-br from-slate-800/50 to-slate-900/50 
-      dark:from-slate-200/50 dark:to-slate-100/50 
-      border border-slate-700/50 dark:border-slate-300/50 
-      rounded-2xl flex items-center justify-center 
-      transition-all duration-300 hover:scale-110 
-      hover:border-purple-500/50 dark:hover:border-purple-400/50
-      hover:shadow-lg hover:shadow-purple-500/20 dark:hover:shadow-purple-400/20
+    className="group relative w-11 h-11 bg-gradient-to-br from-slate-100/50 to-slate-200/50
+      dark:from-slate-800/50 dark:to-slate-900/50
+      border border-slate-300/50 dark:border-slate-700/50
+      rounded-2xl flex items-center justify-center
+      transition-all duration-300 hover:scale-110
+      hover:border-purple-400/50 dark:hover:border-purple-500/50
+      hover:shadow-lg hover:shadow-purple-400/20 dark:hover:shadow-purple-500/20
       overflow-hidden"
   >
     <div
@@ -88,11 +88,11 @@ export default function Footer({ locale, translations }: FooterProps) {
 
   return (
     <footer
-      className="relative bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 
-      dark:from-slate-100 dark:via-slate-50 dark:to-slate-100 
-      text-slate-300 dark:text-slate-700 
-      border-t border-slate-800/50 dark:border-slate-200/50 
-      overflow-hidden"
+      className="relative bg-gradient-to-br from-slate-50 via-white to-slate-50
+      dark:from-slate-950 dark:via-slate-900 dark:to-slate-950
+      text-slate-600 dark:text-slate-300
+      border-t border-slate-200/50 dark:border-slate-800/50
+      overflow-hidden transition-colors duration-300"
     >
       {/* Decorative elements */}
       <div className="absolute inset-0 opacity-30">
@@ -117,15 +117,15 @@ export default function Footer({ locale, translations }: FooterProps) {
                 <span className="text-white font-bold text-xl">N</span>
               </div>
               <span
-                className="text-2xl lg:text-3xl font-bold text-transparent bg-clip-text 
-                bg-gradient-to-r from-purple-400 via-purple-300 to-blue-400 
-                dark:from-purple-600 dark:via-purple-500 dark:to-blue-600"
+                className="text-2xl lg:text-3xl font-bold text-transparent bg-clip-text
+                bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600
+                dark:from-purple-400 dark:via-purple-300 dark:to-blue-400"
               >
                 {SITE_NAME}
               </span>
             </a>
 
-            <p className="text-slate-400 dark:text-slate-600 leading-relaxed text-sm lg:text-base max-w-sm">
+            <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm lg:text-base max-w-sm">
               {t?.description ??
                 "Création de solutions web modernes et robustes. Développeur FullStack spécialisé en React, Node.js et architecture cloud."}
             </p>
@@ -133,7 +133,7 @@ export default function Footer({ locale, translations }: FooterProps) {
             {/* Social links */}
             <div className="space-y-4 pt-2">
               <h3
-                className="text-white dark:text-slate-900 font-semibold text-sm uppercase tracking-wider 
+                className="text-gray-900 dark:text-white font-semibold text-sm uppercase tracking-wider
                 flex items-center gap-2"
               >
                 {t?.socialTitle ?? "Connectons-nous"}
@@ -144,8 +144,8 @@ export default function Footer({ locale, translations }: FooterProps) {
                 <SocialIconLink href={SOCIAL_LINKS.github} label="GitHub">
                   <Github
                     size={20}
-                    className="text-slate-400 dark:text-slate-600 
-                      group-hover:text-purple-400 dark:group-hover:text-purple-600 
+                    className="text-slate-600 dark:text-slate-400
+                      group-hover:text-purple-600 dark:group-hover:text-purple-400
                       transition-colors"
                   />
                 </SocialIconLink>
@@ -153,8 +153,8 @@ export default function Footer({ locale, translations }: FooterProps) {
                 <SocialIconLink href={SOCIAL_LINKS.linkedin} label="LinkedIn">
                   <Linkedin
                     size={20}
-                    className="text-slate-400 dark:text-slate-600 
-                      group-hover:text-purple-400 dark:group-hover:text-purple-600 
+                    className="text-slate-600 dark:text-slate-400
+                      group-hover:text-purple-600 dark:group-hover:text-purple-400
                       transition-colors"
                   />
                 </SocialIconLink>
@@ -162,8 +162,8 @@ export default function Footer({ locale, translations }: FooterProps) {
                 <SocialIconLink href={SOCIAL_LINKS.tiktok} label="TikTok">
                   <Music2
                     size={20}
-                    className="text-slate-400 dark:text-slate-600 
-                      group-hover:text-purple-400 dark:group-hover:text-purple-600 
+                    className="text-slate-600 dark:text-slate-400
+                      group-hover:text-purple-600 dark:group-hover:text-purple-400
                       transition-colors"
                   />
                 </SocialIconLink>
@@ -171,8 +171,8 @@ export default function Footer({ locale, translations }: FooterProps) {
                 <SocialIconLink href={SOCIAL_LINKS.whatsapp} label="Facebook">
                   <Facebook
                     size={20}
-                    className="text-slate-400 dark:text-slate-600 
-                      group-hover:text-purple-400 dark:group-hover:text-purple-600 
+                    className="text-slate-600 dark:text-slate-400
+                      group-hover:text-purple-600 dark:group-hover:text-purple-400
                       transition-colors"
                   />
                 </SocialIconLink>
@@ -185,7 +185,7 @@ export default function Footer({ locale, translations }: FooterProps) {
             {Object.entries(FOOTER_LINKS).map(([key, links]) => (
               <div key={key} className="space-y-4">
                 <h3
-                  className="text-white dark:text-slate-900 font-semibold text-sm uppercase tracking-wider 
+                  className="text-gray-900 dark:text-white font-semibold text-sm uppercase tracking-wider
                   flex items-center gap-2"
                 >
                   {t?.[key] ?? key.charAt(0).toUpperCase() + key.slice(1)}
@@ -196,14 +196,14 @@ export default function Footer({ locale, translations }: FooterProps) {
                     <li key={link.label}>
                       <a
                         href={link.href}
-                        className="group text-slate-400 dark:text-slate-600 
-                          hover:text-purple-400 dark:hover:text-purple-600 
-                          transition-all duration-200 text-sm 
+                        className="group text-slate-600 dark:text-slate-400
+                          hover:text-purple-600 dark:hover:text-purple-400
+                          transition-all duration-200 text-sm
                           flex items-center gap-2"
                       >
                         <span
-                          className="w-0 group-hover:w-1.5 h-1.5 
-                          bg-purple-400 dark:bg-purple-600 rounded-full 
+                          className="w-0 group-hover:w-1.5 h-1.5
+                          bg-purple-600 dark:bg-purple-400 rounded-full
                           transition-all duration-200"
                         />
                         <span className="group-hover:translate-x-1 transition-transform duration-200">
@@ -220,7 +220,7 @@ export default function Footer({ locale, translations }: FooterProps) {
           {/* Contact info - spans 2 columns on large screens */}
           <div className="lg:col-span-2 space-y-4">
             <h3
-              className="text-white dark:text-slate-900 font-semibold text-sm uppercase tracking-wider 
+              className="text-gray-900 dark:text-white font-semibold text-sm uppercase tracking-wider
               flex items-center gap-2"
             >
               {t?.contactInfo ?? "Contact"}
@@ -229,10 +229,10 @@ export default function Footer({ locale, translations }: FooterProps) {
             <div className="space-y-4">
               <a
                 href="mailto:kouamenelson47@gmail.com"
-                className="group flex items-start gap-3 text-slate-400 dark:text-slate-600 
-                  hover:text-purple-400 dark:hover:text-purple-600 
-                  transition-colors text-sm p-3 rounded-xl 
-                  hover:bg-slate-800/30 dark:hover:bg-slate-200/30"
+                className="group flex items-start gap-3 text-slate-600 dark:text-slate-400
+                  hover:text-purple-600 dark:hover:text-purple-400
+                  transition-colors text-sm p-3 rounded-xl
+                  hover:bg-slate-100/50 dark:hover:bg-slate-800/30"
               >
                 <div
                   className="w-8 h-8 bg-gradient-to-br from-purple-500/20 to-blue-500/20 
@@ -241,7 +241,7 @@ export default function Footer({ locale, translations }: FooterProps) {
                 >
                   <Mail
                     size={16}
-                    className="text-purple-400 dark:text-purple-600"
+                    className="text-purple-600 dark:text-purple-400"
                   />
                 </div>
                 <span className="break-all">kouamenelson47@gmail.com</span>
@@ -249,10 +249,10 @@ export default function Footer({ locale, translations }: FooterProps) {
 
               <a
                 href="tel:+2250506832678"
-                className="group flex items-center gap-3 text-slate-400 dark:text-slate-600 
-                  hover:text-purple-400 dark:hover:text-purple-600 
-                  transition-colors text-sm p-3 rounded-xl 
-                  hover:bg-slate-800/30 dark:hover:bg-slate-200/30"
+                className="group flex items-center gap-3 text-slate-600 dark:text-slate-400
+                  hover:text-purple-600 dark:hover:text-purple-400
+                  transition-colors text-sm p-3 rounded-xl
+                  hover:bg-slate-100/50 dark:hover:bg-slate-800/30"
               >
                 <div
                   className="w-8 h-8 bg-gradient-to-br from-purple-500/20 to-blue-500/20 
@@ -261,14 +261,14 @@ export default function Footer({ locale, translations }: FooterProps) {
                 >
                   <Phone
                     size={16}
-                    className="text-purple-400 dark:text-purple-600"
+                    className="text-purple-600 dark:text-purple-400"
                   />
                 </div>
                 <span>+225 0506832678</span>
               </a>
 
               <div
-                className="flex items-start gap-3 text-slate-400 dark:text-slate-600 text-sm 
+                className="flex items-start gap-3 text-slate-600 dark:text-slate-400 text-sm
                 p-3 rounded-xl"
               >
                 <div
@@ -277,7 +277,7 @@ export default function Footer({ locale, translations }: FooterProps) {
                 >
                   <MapPin
                     size={16}
-                    className="text-purple-400 dark:text-purple-600"
+                    className="text-purple-600 dark:text-purple-400"
                   />
                 </div>
                 <span>{t?.location ?? "Abidjan, Côte d'Ivoire"}</span>
@@ -289,13 +289,13 @@ export default function Footer({ locale, translations }: FooterProps) {
 
       {/* Bottom bar */}
       <div
-        className="relative z-10 border-t border-slate-800/50 dark:border-slate-200/50 
-        backdrop-blur-sm bg-slate-950/50 dark:bg-slate-100/50"
+        className="relative z-10 border-t border-slate-200/50 dark:border-slate-800/50
+        backdrop-blur-sm bg-slate-100/50 dark:bg-slate-950/50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div
-            className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs 
-            text-slate-500 dark:text-slate-600"
+            className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs
+            text-slate-500 dark:text-slate-400"
           >
             <div className="flex items-center gap-2">
               <span className="font-medium">
@@ -307,7 +307,7 @@ export default function Footer({ locale, translations }: FooterProps) {
               </span>
             </div>
 
-            <div className="flex items-center gap-2 text-slate-400 dark:text-slate-600">
+            <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
               <span>{t?.madeWith ?? "Développé avec"}</span>
               <Heart
                 size={14}
@@ -319,7 +319,7 @@ export default function Footer({ locale, translations }: FooterProps) {
             <div className="flex items-center gap-6">
               <a
                 href={`/${locale}/privacy`}
-                className="hover:text-purple-400 dark:hover:text-purple-600 
+                className="hover:text-purple-600 dark:hover:text-purple-400
                   transition-colors flex items-center gap-1 group"
               >
                 {t?.privacy ?? "Confidentialité"}
@@ -331,7 +331,7 @@ export default function Footer({ locale, translations }: FooterProps) {
               </a>
               <a
                 href={`/${locale}/terms`}
-                className="hover:text-purple-400 dark:hover:text-purple-600 
+                className="hover:text-purple-600 dark:hover:text-purple-400
                   transition-colors flex items-center gap-1 group"
               >
                 {t?.terms ?? "Conditions"}

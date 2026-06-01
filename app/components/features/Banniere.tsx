@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import {
   Github,
   Linkedin,
@@ -8,16 +9,18 @@ import {
   MessageCircle,
   Music2,
   ArrowRight,
+  Download,
   Sparkles,
+  Code2,
 } from "lucide-react";
 import Image from "next/image";
+import { motion, type Variants } from "framer-motion";
 
 interface HeroProps {
   locale: "en" | "fr";
   translations: Record<string, Record<string, string>>;
 }
 
-// Fonction utilitaire pour créer un lien interne ou externe sécurisé
 const CustomLink: React.FC<
   React.PropsWithChildren<{ href: string; className?: string }>
 > = ({ href, children, className }) => {
@@ -40,12 +43,77 @@ const CustomLink: React.FC<
   );
 };
 
-export default function Banniere({ translations }: HeroProps) {
+const ROLES_FR = [
+  "Développeur FullStack",
+  "Expert React & Next.js",
+  "Développeur Node.js",
+  "Créateur d'Apps Web",
+];
+const ROLES_EN = [
+  "FullStack Developer",
+  "React & Next.js Expert",
+  "Node.js Developer",
+  "Web App Creator",
+];
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.15 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: "easeOut" },
+  },
+};
+
+export default function Banniere({ locale, translations }: HeroProps) {
   const banniere = translations.banniere;
+  const roles = locale === "en" ? ROLES_EN : ROLES_FR;
+
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const current = roles[roleIndex];
+    const speed = isDeleting ? 35 : 75;
+
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        const next = current.slice(0, displayText.length + 1);
+        setDisplayText(next);
+        if (next === current) {
+          setTimeout(() => setIsDeleting(true), 2200);
+        }
+      } else {
+        const next = current.slice(0, displayText.length - 1);
+        setDisplayText(next);
+        if (next === "") {
+          setIsDeleting(false);
+          setRoleIndex((prev) => (prev + 1) % roles.length);
+        }
+      }
+    }, speed);
+
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, roleIndex, roles]);
+
   const skills = [
     "JavaScript",
     "NestJS",
-    "NextJS",
+    "Next.js",
     "React",
     "TypeScript",
     "Node.js",
@@ -56,212 +124,176 @@ export default function Banniere({ translations }: HeroProps) {
       name: "GitHub",
       icon: Github,
       url: "https://github.com/Kouamekobenan",
-      color: "hover:bg-slate-800 dark:hover:bg-slate-200",
+      hoverClass:
+        "hover:bg-slate-900 hover:text-white hover:border-slate-900 dark:hover:bg-white dark:hover:text-slate-900 dark:hover:border-white",
     },
     {
       name: "LinkedIn",
       icon: Linkedin,
       url: "https://www.linkedin.com/in/no%C3%ABl-kouame-133339225/?trk=opento_sprofile_topcard",
-      color: "hover:bg-blue-500/10 dark:hover:bg-blue-500/20",
+      hoverClass: "hover:bg-blue-600 hover:text-white hover:border-blue-600",
     },
     {
       name: "Facebook",
       icon: Facebook,
       url: "https://web.facebook.com/nelson.kouame.2025?locale=fr_FR",
-      color: "hover:bg-blue-500/10 dark:hover:bg-blue-500/20",
+      hoverClass: "hover:bg-blue-700 hover:text-white hover:border-blue-700",
     },
     {
       name: "WhatsApp",
       icon: MessageCircle,
       url: "https://wa.me/2250506832678",
-      color: "hover:bg-green-500/10 dark:hover:bg-green-500/20",
+      hoverClass: "hover:bg-green-500 hover:text-white hover:border-green-500",
     },
     {
       name: "TikTok",
       icon: Music2,
       url: "https://www.tiktok.com/@nelson23kouame?lang=fr",
-      color: "hover:bg-pink-500/10 dark:hover:bg-pink-500/20",
+      hoverClass: "hover:bg-pink-600 hover:text-white hover:border-pink-600",
     },
     {
       name: "Email",
       icon: Mail,
       url: "mailto:kouamenelson47@gmail.com",
-      color: "hover:bg-red-500/10 dark:hover:bg-red-500/20",
+      hoverClass: "hover:bg-red-500 hover:text-white hover:border-red-500",
     },
   ];
 
   return (
-    <div
-      className="relative min-h-[85vh] bg-gradient-to-b from-slate-50 via-white to-slate-50 
-      dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 
-      transition-colors duration-300 overflow-hidden"
-    >
-      {/* Subtle Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03]">
-        <svg width="100%" height="100%">
-          <pattern
-            id="grid"
-            width="40"
-            height="40"
-            patternUnits="userSpaceOnUse"
-          >
-            <circle cx="20" cy="20" r="1" fill="currentColor" />
-          </pattern>
-          <rect width="100%" height="100%" fill="url(#grid)" />
+    <div className="relative min-h-screen bg-white dark:bg-slate-950 transition-colors duration-300 overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-48 -right-48 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-purple-100 via-violet-100 to-blue-100 dark:from-purple-900/20 dark:via-violet-900/15 dark:to-blue-900/20 blur-3xl opacity-70 dark:opacity-50" />
+        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-indigo-100 to-cyan-100 dark:from-indigo-900/20 dark:to-cyan-900/20 blur-3xl opacity-60 dark:opacity-40" />
+        {/* Subtle dot grid */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.018] dark:opacity-[0.04]">
+          <defs>
+            <pattern id="dots" width="32" height="32" patternUnits="userSpaceOnUse">
+              <circle cx="1.5" cy="1.5" r="1.5" fill="currentColor" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dots)" />
         </svg>
       </div>
-      {/* Soft Gradient Orbs - More Subtle */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute top-20 -left-20 w-96 h-96 bg-purple-200/20 dark:bg-purple-500/10 
-          rounded-full blur-3xl"
-        ></div>
-        <div
-          className="absolute bottom-20 -right-20 w-96 h-96 bg-blue-200/20 dark:bg-blue-500/10 
-          rounded-full blur-3xl"
-        ></div>
-      </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-7xl mx-auto">
-          {/* Left Side - Content */}
-          <div className="order-2 lg:order-1 space-y-8">
-            {/* Status Badge */}
-            <div
-              className="inline-flex items-center gap-2 px-4 py-2 
-              bg-emerald-50 dark:bg-emerald-500/10 
-              border border-emerald-200 dark:border-emerald-500/20 
-              rounded-full"
-            >
-              <span className="relative flex h-2.5 w-2.5">
-                <span
-                  className="animate-ping absolute inline-flex h-full w-full rounded-full 
-                  bg-emerald-400 opacity-75"
-                ></span>
-                <span
-                  className="relative inline-flex rounded-full h-2.5 w-2.5 
-                  bg-emerald-500"
-                ></span>
-              </span>
-              <span className="text-sm font-medium text-emerald-700 dark:text-emerald-400">
-                {banniere?.available ?? "Disponible pour opportunités"}
-              </span>
-            </div>
+      {/* Main layout */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
+        <div className="w-full grid lg:grid-cols-2 gap-10 lg:gap-24 items-center py-16 sm:py-24 lg:py-32">
 
-            {/* Main Heading */}
-            <div className="space-y-3">
-              <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg font-medium">
+          {/* ── Left: text content ── */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={mounted ? "visible" : "hidden"}
+            className="space-y-5 sm:space-y-7"
+          >
+            {/* Status pill */}
+            <motion.div variants={itemVariants}>
+              <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+                <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">
+                  {banniere?.available ?? "Disponible pour opportunités"}
+                </span>
+              </span>
+            </motion.div>
+            {/* Name */}
+            <motion.div variants={itemVariants} className="space-y-2">
+              <p className="text-slate-500 dark:text-slate-400 text-lg font-medium tracking-wide">
                 {banniere?.greeting ?? "Bonjour, je suis"}
               </p>
-              <h1
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 
-                dark:text-white leading-tight tracking-tight"
-              >
-                Kouame Kobenan
-                <span
-                  className="block bg-gradient-to-r from-purple-600 to-blue-600 
-                  dark:from-purple-400 dark:to-blue-400 
-                  bg-clip-text text-transparent"
-                >
-                  Noel
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-slate-900 dark:text-white leading-[1.05] tracking-tight">
+                Kouame
+                <span className="block text-transparent uppercase bg-clip-text bg-gradient-to-r from-purple-600 via-violet-600 to-blue-600 dark:from-purple-400 dark:via-violet-400 dark:to-blue-400">
+                  Kobeenan Noel
                 </span>
               </h1>
-              <h2
-                className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-slate-700 
-                dark:text-slate-300"
-              >
-                Développeur{" "}
-                <span className="text-purple-600 dark:text-purple-400 font-bold">
-                  FullStack
-                </span>
-              </h2>
-            </div>
+            </motion.div>
 
-            {/* Quick Info */}
-            <div className="flex flex-wrap gap-3 text-sm">
-              <div
-                className="flex items-center gap-2 px-4 py-2 
-                bg-slate-100 dark:bg-slate-800/50 
-                rounded-lg border border-slate-200 dark:border-slate-700"
-              >
-                <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                <span className="text-slate-700 dark:text-slate-300">
-                  Étudiant 3ème année IDA
+            {/* Animated role — typewriter */}
+            <motion.div
+              variants={itemVariants}
+              className="flex items-center gap-3 min-h-[2.5rem]"
+            >
+              <Code2 className="w-5 h-5 text-purple-500 dark:text-purple-400 flex-shrink-0" />
+              <span className="text-xl sm:text-2xl font-bold text-slate-700 dark:text-slate-200">
+                {displayText}
+                <span className="animate-pulse text-purple-500 dark:text-purple-400 ml-0.5">
+                  |
                 </span>
-              </div>
-              <div
-                className="flex items-center gap-2 px-4 py-2 
-                bg-slate-100 dark:bg-slate-800/50 
-                rounded-lg border border-slate-200 dark:border-slate-700"
-              >
-                <MapPin className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                <span className="text-slate-700 dark:text-slate-300">
-                  Abidjan, Côte d&apos;Ivoire
-                </span>
-              </div>
-            </div>
+              </span>
+            </motion.div>
 
-            {/* Tech Stack */}
-            <div className="space-y-3">
-              <p
-                className="text-sm font-semibold text-slate-600 dark:text-slate-400 
-                uppercase tracking-wide"
-              >
-                {banniere?.technologies ?? "Stack Technique"}
+            {/* Info tags */}
+            <motion.div variants={itemVariants} className="flex flex-wrap gap-2.5">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400">
+                <Sparkles className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" />
+                Freelance
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400">
+                <MapPin className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400" />
+                Abidjan, Côte d&apos;Ivoire
+              </span>
+            </motion.div>
+
+            {/* Stack */}
+            <motion.div variants={itemVariants} className="space-y-3">
+              <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.18em]">
+                {banniere?.technologies ?? "Stack technique"}
               </p>
               <div className="flex flex-wrap gap-2">
-                {skills.map((skill, index) => (
+                {skills.map((skill, i) => (
                   <span
-                    key={index}
-                    className="px-4 py-2 text-sm font-medium
-                      bg-white dark:bg-slate-800 
+                    key={i}
+                    className="px-3.5 py-1.5 text-sm font-semibold rounded-lg cursor-default
+                      bg-white dark:bg-slate-900
                       text-slate-700 dark:text-slate-300
                       border border-slate-200 dark:border-slate-700
-                      rounded-lg
-                      hover:border-purple-300 dark:hover:border-purple-600
-                      hover:shadow-sm
-                      transition-all duration-200"
+                      hover:border-purple-400 dark:hover:border-purple-500
+                      hover:text-purple-600 dark:hover:text-purple-400
+                      hover:shadow-sm transition-all duration-200"
                   >
                     {skill}
                   </span>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-4 pt-2">
+            {/* CTA buttons */}
+            <motion.div variants={itemVariants} className="flex flex-wrap gap-3 pt-1">
               <CustomLink href="#projects">
-                <button
-                  className="group inline-flex items-center gap-2 px-6 py-3 
-                  bg-slate-900 dark:bg-white 
-                  text-white dark:text-slate-900
-                  font-semibold rounded-xl
-                  hover:bg-slate-800 dark:hover:bg-slate-100
-                  transition-all duration-200
-                  shadow-lg shadow-slate-900/10 dark:shadow-white/10"
-                >
+                <span className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-bold text-white
+                  bg-gradient-to-r from-purple-600 via-violet-600 to-blue-600
+                  hover:from-purple-700 hover:via-violet-700 hover:to-blue-700
+                  shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40
+                  transition-all duration-300 hover:scale-[1.03]">
                   {banniere?.viewProjects ?? "Voir mes projets"}
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
+                </span>
               </CustomLink>
 
               <a
-                href="/images/my-cv.pdf"
+                href="/images/nelson-cv.pdf"
                 download
-                className="inline-flex items-center gap-2 px-6 py-3 
-                  bg-white dark:bg-slate-800 
-                  text-slate-900 dark:text-white 
-                  font-semibold rounded-xl
+                className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-bold
+                  bg-white dark:bg-slate-900
+                  text-slate-900 dark:text-white
                   border-2 border-slate-200 dark:border-slate-700
-                  hover:border-slate-300 dark:hover:border-slate-600
-                  transition-all duration-200"
+                  hover:border-purple-400 dark:hover:border-purple-500
+                  hover:shadow-md transition-all duration-300 hover:scale-[1.03]"
               >
+                <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
                 {banniere?.downloadCV ?? "Télécharger CV"}
               </a>
-            </div>
-            {/* Social Links - Compact */}
-            <div className="flex items-center gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
+            </motion.div>
+
+            {/* Social icons */}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80"
+            >
               {socialLinks.map((social) => (
                 <a
                   key={social.name}
@@ -269,111 +301,97 @@ export default function Banniere({ translations }: HeroProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.name}
-                  className={`p-2.5 rounded-lg 
-                    bg-slate-100 dark:bg-slate-800 
-                    border border-slate-200 dark:border-slate-700
-                    text-slate-600 dark:text-slate-400
-                    hover:text-slate-900 dark:hover:text-white
-                    ${social.color}
+                  className={`p-2.5 rounded-lg border
+                    bg-slate-50 dark:bg-slate-800/50
+                    border-slate-200 dark:border-slate-700
+                    text-slate-500 dark:text-slate-400
+                    ${social.hoverClass}
                     transition-all duration-200`}
                 >
                   <social.icon className="w-4 h-4" />
                 </a>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
+          {/* ── Right: image ── */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.88, y: 20 }}
+            animate={mounted ? { opacity: 1, scale: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+            className="flex justify-center lg:justify-end"
+          >
+            <div className="relative">
+              {/* Ambient glow */}
+              <div className="absolute -inset-6 rounded-full bg-gradient-to-br from-purple-400/20 via-violet-400/20 to-blue-400/20 dark:from-purple-500/25 dark:via-violet-500/25 dark:to-blue-500/25 blur-3xl" />
 
-          {/* Right Side - Image */}
-          <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
-            <div className="relative group">
-              {/* Subtle Glow Effect */}
-              <div
-                className="absolute -inset-1 bg-gradient-to-r from-purple-300 to-blue-300 
-                dark:from-purple-600 dark:to-blue-600 
-                rounded-full opacity-20 blur-2xl group-hover:opacity-30 
-                transition-opacity duration-500"
-              ></div>
-
-              {/* Image Container - More Refined */}
-              <div className="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80">
-                {/* Border Ring */}
-                <div
-                  className="absolute inset-0 rounded-full 
-                  bg-gradient-to-br from-purple-500 to-blue-500 
-                  dark:from-purple-400 dark:to-blue-400 
-                  p-[3px]"
-                >
-                  <div
-                    className="w-full h-full rounded-full 
-                    bg-white dark:bg-slate-900"
-                  ></div>
+              {/* Image frame */}
+              <div className="relative w-75 h-75 sm:w-164 sm:h-104 lg:w-[380px] lg:h-[380px]">
+                {/* Gradient ring */}
+                <div className="absolute inset-0 rounded-full p-[3px] bg-gradient-to-br from-purple-500 via-violet-500 to-blue-500 dark:from-purple-400 dark:via-violet-400 dark:to-blue-400 shadow-2xl shadow-purple-500/20 dark:shadow-purple-500/30">
+                  <div className="w-full h-full rounded-full bg-white dark:bg-slate-950" />
                 </div>
 
-                {/* Image */}
-                <div
-                  className="absolute inset-[3px] rounded-full overflow-hidden 
-                  bg-gradient-to-br from-slate-100 to-slate-200 
-                  dark:from-slate-800 dark:to-slate-900"
-                >
+                {/* Photo */}
+                <div className="absolute inset-[3px] rounded-full overflow-hidden">
                   <Image
-                    src="/images/nelson.png"
-                    alt="Kouame Kobenan Noel - Développeur FullStack"
-                    width={320}
-                    height={320}
-                    className="w-full h-full object-cover 
-                      scale-110 group-hover:scale-100
-                      transition-transform duration-700"
+                    src="/images/nelson1.jpg"
+                    alt="Kouame Kobenan Noel — Développeur FullStack"
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-out"
                     priority
                   />
                 </div>
 
-                {/* Floating Badge - More Subtle */}
-                <div
-                  className="absolute -bottom-2 -right-2 
-                  bg-white dark:bg-slate-800 
-                  border-2 border-slate-200 dark:border-slate-700
-                  px-4 py-2 rounded-full shadow-lg
-                  group-hover:scale-105 transition-transform duration-300"
+                {/* Floating badge — Disponible */}
+                <motion.div
+                  initial={{ opacity: 0, y: 12, scale: 0.85 }}
+                  animate={mounted ? { opacity: 1, y: 0, scale: 1 } : {}}
+                  transition={{ delay: 0.9, duration: 0.45, ease: "easeOut" }}
+                  className="absolute -bottom-5 left-1/2 -translate-x-1/2
+                    inline-flex items-center gap-2 px-5 py-2.5
+                    bg-white dark:bg-slate-900
+                    border border-slate-200 dark:border-slate-700
+                    rounded-full shadow-xl shadow-slate-300/40 dark:shadow-slate-900/60"
                 >
-                  <div className="flex items-center gap-2">
-                    <span className="relative flex h-2 w-2">
-                      <span
-                        className="animate-ping absolute inline-flex h-full w-full 
-                        rounded-full bg-emerald-400 opacity-75"
-                      ></span>
-                      <span
-                        className="relative inline-flex rounded-full h-2 w-2 
-                        bg-emerald-500"
-                      ></span>
-                    </span>
-                    <span className="text-sm font-semibold text-slate-900 dark:text-white">
-                      Disponible
-                    </span>
-                  </div>
-                </div>
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                  </span>
+                  <span className="text-sm font-bold text-slate-800 dark:text-white whitespace-nowrap">
+                    Disponible
+                  </span>
+                </motion.div>
+
+                {/* Floating badge — Expérience */}
+                <motion.div
+                  initial={{ opacity: 0, x: 12, scale: 0.85 }}
+                  animate={mounted ? { opacity: 1, x: 0, scale: 1 } : {}}
+                  transition={{ delay: 1.1, duration: 0.45, ease: "easeOut" }}
+                  className="absolute hidden sm:flex -right-6 top-1/3
+                    flex-col items-center px-4 py-3
+                    bg-white dark:bg-slate-900
+                    border border-slate-200 dark:border-slate-700
+                    rounded-2xl shadow-xl shadow-slate-300/40 dark:shadow-slate-900/60"
+                >
+                  <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">
+                    3+
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider leading-tight">
+                    Ans<br />Exp.
+                  </span>
+                </motion.div>
               </div>
             </div>
-          </div>
+          </motion.div>
+
         </div>
       </div>
 
-      {/* Minimal Scroll Indicator */}
-      <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 
-        flex flex-col items-center gap-2 opacity-40 hover:opacity-100 
-        transition-opacity cursor-pointer"
-      >
-        <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">
-          Scroll
-        </span>
-        <div
-          className="w-5 h-8 border-2 border-slate-300 dark:border-slate-700 
-          rounded-full flex justify-center p-1"
-        >
-          <div
-            className="w-1 h-2 bg-slate-400 dark:bg-slate-300 rounded-full 
-            animate-bounce"
-          >.</div>
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-30 hover:opacity-70 transition-opacity duration-300">
+        <div className="w-5 h-8 border-2 border-slate-400 dark:border-slate-600 rounded-full flex justify-center pt-1.5">
+          <div className="w-1 h-2 bg-slate-500 dark:bg-slate-400 rounded-full animate-bounce" />
         </div>
       </div>
     </div>

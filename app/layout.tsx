@@ -1,9 +1,38 @@
 import { ReactNode } from "react";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://my-portfolio-nextjs-beta-hazel.vercel.app";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)",  color: "#020617" },
+  ],
+};
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Nelson Kouame — Développeur FullStack | Portfolio",
+    template: "%s | Nelson Kouame",
+  },
+  description:
+    "Nelson Kouame, Développeur FullStack basé à Abidjan, Côte d'Ivoire. Spécialisé en React, Next.js, TypeScript, Node.js et NestJS. Disponible pour freelance.",
+  icons: {
+    icon:      "/images/logo-12.png",
+    shortcut:  "/images/logo-12.png",
+    apple:     "/images/logo-12.png",
+  },
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

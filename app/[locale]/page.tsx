@@ -1,5 +1,6 @@
 import Banniere from "../components/features/Banniere";
 import Projects from "../components/features/Projects";
+import Skills from "../components/features/Skills";
 import { getTranslation } from "../i18n";
 import { LocaleCode } from "../lib/global.type";
 
@@ -21,6 +22,7 @@ export default async function Home({ params }: HomePageProps) {
     <div className="overflow-x-hidden">
       <Banniere locale={locale as "en" | "fr"} translations={allTranslations} />
       <Projects locale={locale as "en" | "fr"} translations={allTranslations} />
+      <Skills />
     </div>
   );
 }
